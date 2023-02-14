@@ -57,6 +57,8 @@ SELECT nombre FROM fabricante ORDER BY nombre DESC;
 
 CONSULTA 15
 
+SELECT nombre, precio FROM producto ORDER BY nombre ASC, precio DESC;
+
 CONSULTA 16
 
 SELECT * FROM fabricante LIMIT 5;
@@ -156,4 +158,54 @@ WHERE  fabricante.nombre LIKE "%w%";
 
 CONSULTA 32
 
+SELECT producto.nombre, producto.precio, fabricante.nombre
+FROM producto
+INNER JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo
+WHERE  producto.precio >= 180 ORDER BY precio DESC, producto.nombre ASC ;
 
+CONSULTA 33
+
+SELECT fabricante.codigo, fabricante.nombre
+FROM fabricante
+INNER JOIN producto ON producto.codigo_fabricante = fabricante.codigo
+GROUP BY fabricante.codigo;
+
+CONSULTA 34
+
+SELECT producto.nombre, fabricante.nombre
+FROM fabricante
+LEFT JOIN producto ON producto.codigo_fabricante = fabricante.codigo
+ORDER BY fabricante.nombre;
+
+CONSULTA 35
+
+SELECT producto.nombre, fabricante.nombre
+FROM fabricante
+LEFT JOIN producto ON producto.codigo_fabricante = fabricante.codigo
+WHERE producto.codigo IS NULL
+ORDER BY fabricante.nombre;
+
+CONSULTA 36
+
+SELECT producto.nombre, producto.precio, fabricante.nombre
+FROM producto, fabricante
+WHERE fabricante.codigo = (SELECT codigo FROM fabricante WHERE nombre = "lenovo")
+;
+
+CONSULTA 37
+
+
+
+CONSULTA 38
+
+SELECT producto.nombre, producto.precio, fabricante.nombre
+FROM producto
+INNER JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo
+WHERE  fabricante.nombre LIKE "Lenovo" ORDER BY precio DESC lIMIT 1;
+
+CONSULTA 39
+
+SELECT producto.nombre, producto.precio, fabricante.nombre
+FROM producto
+INNER JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo
+WHERE  fabricante.nombre LIKE "Hewlett-Packard" ORDER BY precio ASC lIMIT 1;
