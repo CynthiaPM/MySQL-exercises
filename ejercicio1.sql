@@ -193,7 +193,11 @@ WHERE fabricante.codigo = (SELECT codigo FROM fabricante WHERE nombre = "lenovo"
 ;
 
 CONSULTA 37
-
+SELECT producto.codigo, producto.nombre, producto.precio, fabricante.nombre
+FROM producto, fabricante
+WHERE producto.precio = ( SELECT MAX(precio) FROM producto WHERE
+ codigo_fabricante = (SELECT codigo FROM fabricante WHERE nombre = "lenovo"))
+;
 
 
 CONSULTA 38
@@ -209,3 +213,18 @@ SELECT producto.nombre, producto.precio, fabricante.nombre
 FROM producto
 INNER JOIN fabricante ON producto.codigo_fabricante = fabricante.codigo
 WHERE  fabricante.nombre LIKE "Hewlett-Packard" ORDER BY precio ASC lIMIT 1;
+
+CONSULTA 40
+
+SELECT producto.codigo, producto.nombre, producto.precio, fabricante.nombre
+FROM producto, fabricante
+WHERE producto.precio >= ( SELECT MAX(precio) FROM producto WHERE
+ codigo_fabricante = (SELECT codigo FROM fabricante WHERE nombre = "lenovo"))
+ ;
+
+ CONSULTA 41
+
+ SELECT nombre, precio
+FROM producto
+WHERE codigo_fabricante = (SELECT codigo FROM fabricante WHERE 
+nombre = 'Asus') AND precio > (SELECT AVG(precio) FROM producto);
