@@ -10,14 +10,6 @@ CONSULTA 3
 
 SELECT apellido1, apellido2 , nombre FROM persona WHERE tipo = "alumno" AND fecha_nacimiento LIKE "%1999%";
 
-otra solucion
-
-SELECT apellido1, apellido2 , nombre , alumno_se_matricula_asignatura.id_alumno
- FROM persona
- INNER JOIN alumno_se_matricula_asignatura ON alumno_se_matricula_asignatura.id_alumno = persona.id 
- WHERE fecha_nacimiento LIKE "%1999%"
- GROUP BY persona.id 
- ORDER BY apellido1, apellido2, nombre;
 
 CONSULTA 4
 
