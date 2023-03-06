@@ -44,7 +44,7 @@ FROM departamento
 JOIN profesor ON departamento.id = profesor.id_departamento
 JOIN asignatura ON asignatura.id_profesor = profesor.id_profesor
 JOIN grado ON asignatura.id_grado = grado.id
-WHERE  grado.nombre = 'Grado en Ingeniería Informática (Plan 2015)';
+WHERE  grado.nombre = 'Grado en Ingeniería Informática (Plan 2015)' GROUP BY departamento.nombre;
 
 CONSULTA 9
 
@@ -96,7 +96,7 @@ CONSULTA 5
 SELECT asignatura.nombre
 FROM asignatura
 LEFT JOIN profesor ON profesor.id_profesor = asignatura.id_profesor
-WHERE asignatura.id_profesor IS NULL;
+WHERE profesor.id_profesor IS NULL;
 
 
 CONSULTA 6
@@ -132,7 +132,7 @@ FROM departamento
 INNER JOIN profesor ON departamento.id = profesor.id_departamento
 INNER JOIN persona ON profesor.id_profesor = persona.id
 WHERE profesor.id_profesor IS NOT NULL
-GROUP BY departamento.nombre ORDER BY numero_profesores;
+GROUP BY departamento.nombre ORDER BY numero_profesores DESC;
 
 CONSULTA 4
 
@@ -149,6 +149,52 @@ FROM grado
 LEFT JOIN asignatura ON grado.id = asignatura.id_grado
 GROUP BY grado.nombre
 ORDER BY numero_asignaturas;
+
+CONSULTA 6
+
+SELECT grado.nombre AS 'Grado', 
+COUNT(asignatura.id) AS "numero_asignaturas" 
+FROM grado  
+LEFT JOIN asignatura  ON grado.id = asignatura.id_grado   
+GROUP BY grado.nombre 
+HAVING numero_asignaturas > 40; 
+
+CONSULTA 7
+
+SELECT grado.nombre , 
+asignatura.tipo AS "Tipo_asignatura", 
+SUM(asignatura.creditos) AS 'total_creditos' 
+FROM grado  
+INNER JOIN asignatura  ON asignatura.id_grado = grado.id 
+GROUP BY grado.nombre, asignatura.tipo;
+
+CONSULTA 8
+
+CONSULTA 9 
+
+SELECT persona.id AS 'id_profesor', 
+persona.nombre, persona.apellido1, persona.apellido2, 
+COUNT(asignatura.id) AS "asignaturas" 
+FROM persona
+LEFT JOIN asignatura ON persona.id = asignatura.id_profesor 
+WHERE persona.tipo = 'profesor' GROUP BY persona.id ORDER BY asignaturas DESC;
+       
+CONSULTA 10
+
+SELECT * FROM Persona 
+WHERE tipo = 'alumno' AND fecha_nacimiento = (SELECT MAX(fecha_nacimiento) FROM Persona);
+
+
+CONSULTA 11 
+
+SELECT CONCAT(persona.apellido1, ' ', persona.apellido2, ', ', persona.nombre) AS 'profesor', 
+departamento.nombre AS 'departamento' 
+FROM persona  
+INNER JOIN profesor  ON persona.id = profesor.id_profesor 
+INNER JOIN departamento ON profesor.id_departamento = departamento.id 
+LEFT JOIN asignatura  ON asignatura.id_profesor = profesor.id_profesor 
+WHERE asignatura.id IS NULL 
+ORDER BY persona.nombre ASC;
 
 
 
