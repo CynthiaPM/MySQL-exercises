@@ -152,7 +152,7 @@ ORDER BY numero_asignaturas;
 
 CONSULTA 6
 
-SELECT grado.nombre AS 'Grado', 
+SELECT grado.nombre AS 'grado', 
 COUNT(asignatura.id) AS "numero_asignaturas" 
 FROM grado  
 LEFT JOIN asignatura  ON grado.id = asignatura.id_grado   
